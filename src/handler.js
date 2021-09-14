@@ -26,10 +26,6 @@ const addBookHandler = (request, h) => {
     updatedAt,
   };
 
-  books.push(newBook);
-
-  const isSuccess = books.filter((book) => book.id === id).length > 0;
-
   if (name === '' || name === undefined) {
     const response = h.response({
       status: 'fail',
@@ -47,6 +43,9 @@ const addBookHandler = (request, h) => {
     response.code(400);
     return response;
   }
+
+  books.push(newBook);
+  const isSuccess = books.filter((book) => book.id === id).length > 0;
 
   if (isSuccess) {
     const response = h.response({
@@ -71,7 +70,11 @@ const addBookHandler = (request, h) => {
 const getAllBooksHandler = () => ({
   status: 'success',
   data: {
-    books,
+    books: books.map((book) => ({
+      id: book.id,
+      name: book.name,
+      publisher: book.publisher,
+    })),
   },
 });
 
