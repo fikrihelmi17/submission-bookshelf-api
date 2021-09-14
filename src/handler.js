@@ -88,7 +88,7 @@ const getAllBooksHandler = (request, h) => {
   }
 
   if (reading) {
-    const filteredBooksByReading = books.filter((book) => book.reading === true);
+    const filteredBooksByReading = books.filter((book) => !!Number(reading) === book.reading);
     
     const response = h.response({
       status: 'success',
@@ -105,24 +105,8 @@ const getAllBooksHandler = (request, h) => {
   }
 
   if (finished) {
-    const filteredBooksByFinished = books.filter((book) => book.finished === true);
+    const filteredBooksByFinished = books.filter((book) => !!Number(finished) === book.finished);
     
-    const response = h.response({
-      status: 'success',
-      data: {
-        books: filteredBooksByFinished.map((book) => ({
-          id: book.id,
-          name: book.name,
-          publisher: book.publisher,
-        })),
-      },
-    });
-    response.code(200);
-    return response;
-  } 
-  if(!finished) {
-    const filteredBooksByFinished = books.filter((book) => !book.finished);
-    // console.log(filteredBooksByFinished);
     const response = h.response({
       status: 'success',
       data: {
